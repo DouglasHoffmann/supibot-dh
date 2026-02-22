@@ -289,8 +289,6 @@ O Supibot é multi-plataforma e possui integrações específicas para cada uma:
 *   `postToPastebin`
 *   `randomInt`
 *   `searchYoutube`
-*   `searchYoutube`
-*   `searchYoutube`
 *   `uploadFile`
 *   `uploadToImgur`
 *   `uploadToKappaLol`
