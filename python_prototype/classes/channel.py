@@ -1,4 +1,5 @@
 from typing import Optional, Set, Dict, Any
+from core import core
 
 class Channel:
     def __init__(self, data: Dict[str, Any], platform):
@@ -18,3 +19,8 @@ class Channel:
 
     async def get_data_property(self, property_name: str) -> Any:
         return self._data_cache.get(property_name)
+
+    @classmethod
+    async def get(cls, identifier: Any, platform) -> Optional['Channel']:
+        # Mock para o protótipo
+        return cls({"ID": 1, "Name": str(identifier)}, platform)

@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Optional, List, Dict, Any
+from core import core
 
 class User:
     def __init__(self, data: Dict[str, Any]):
@@ -15,9 +16,19 @@ class User:
 
     @classmethod
     async def get(cls, identifier: Any) -> Optional['User']:
-        # Mocking the get logic for the prototype
-        print(f"Buscando usuário: {identifier}")
-        return cls({"ID": 1, "Name": "supinic", "Twitch_ID": "12345"})
+        # Simulando busca no Cache ou DB via core
+        cache_key = f"sb-user-{identifier}"
+        cached = await core.Cache.get_by_prefix(cache_key)
+        if cached:
+            return cls(cached)
+
+        # Simulação de busca no DB
+        db_user = await core.Query.get_recordset(lambda rs: rs.select("*").from_("chat_data", "User_Alias").where("Name = %s", identifier).single())
+
+        # Mock para o protótipo
+        mock_data = {"ID": 1, "Name": str(identifier), "Twitch_ID": "12345"}
+        await core.Cache.set_by_prefix(cache_key, mock_data)
+        return cls(mock_data)
 
     async def get_data_property(self, property_name: str) -> Any:
         return self._data_cache.get(property_name)
